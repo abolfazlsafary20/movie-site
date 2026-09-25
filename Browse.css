@@ -1,0 +1,155 @@
+/* Browse.css */
+
+.browse-container {
+  padding: 30px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.browse-title {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 25px;
+  color: var(--text-color);
+  text-align: left;
+  border-left: 5px solid #ff4500;
+  padding-left: 10px;
+}
+
+.browse-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 30px;
+}
+
+/* لینک‌ها و عنوان فیلم */
+.browse-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.25s;
+  text-decoration: none; 
+  outline: none;         
+}
+
+/* wrapper پوستر */
+.browse-item-poster-wrapper {
+  position: relative; /* مهم برای overlay */
+  width: 100%;
+}
+
+/* عکس‌ها */
+.browse-item-poster {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.browse-item-poster:hover {
+  transform: scale(1.01);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+}
+
+/* overlay روی تصویر */
+.browse-item-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* امتیاز بالا سمت راست روی پوستر */
+.browse-item-vote {
+  position: absolute;
+  top: 8px;
+  right: -4px;
+  background: rgba(0,0,0,0.75);
+  color: #ffdd00;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  z-index: 2;
+}
+
+/* سال تولید پایین سمت چپ داخل پوستر */
+.browse-item-year {
+  position: absolute;  
+  bottom: 9px;         
+  left: 1px;       
+  background: rgba(0,0,0,0.75);
+  color: #00ffcc;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 3px 7px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  z-index: 2;
+}
+
+/* متن عنوان فیلم زیر پوستر */
+.browse-item p {
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  color: #000;           
+  text-decoration: none; 
+  z-index: 1;
+}
+
+/* جلوگیری از خط آبی هنگام فوکوس روی لینک */
+.browse-item a:focus,
+.browse-item a:active,
+.browse-item a:hover {
+  outline: none;
+  text-decoration: none;
+  color: #000;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+  font-size: 24px;
+  color: var(--text-color);
+}
+
+/* Dark mode support */
+body.dark-mode .browse-title,
+body.dark-mode .browse-item p {
+  color: #fff;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .browse-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+  }
+
+  .browse-item-poster {
+    height: 220px;
+  }
+
+  .browse-item p {
+    font-size: 14px;
+  }
+
+  .browse-item-vote {
+    font-size: 12px;
+    padding: 3px 6px;
+  }
+
+  .browse-item-year {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+}
