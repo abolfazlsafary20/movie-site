@@ -7,7 +7,7 @@ import { getMovies, getMoviesByGenre, getTV } from "./tmdb";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMG_URL = "https://image.tmdb.org/t/p/original";
-
+const isMobile = window.matchMedia("(max-width: 768px)").matches;
 const filterSafeContent = (items = []) => {
   return items.filter(
     (item) =>
@@ -32,9 +32,10 @@ function Home() {
 
   const rowRefs = useRef([]);
   const [data, setData] = useState({});
+  const [featuredIndices, setFeaturedIndices] = useState({});
   const [trending, setTrending] = useState([]);
 
-  const totalLines = 8;
+  const totalLines = isMobile ? 6 : 8;
 
   const [bannerIndex, setBannerIndex] = useState(0);
   const [bannerTimer, setBannerTimer] = useState(0);
@@ -160,23 +161,82 @@ useEffect(() => {
       alt={banner.title || banner.name}
     />
 
-    <div className="banner-overlay">
-      <div className="banner-content">
+    
+<div className="banner-overlay">
+  <div className="banner-content">
 
-        <h2 className="banner-title">
-          {banner.title || banner.name}
-        </h2>
+    <h2 className="banner-title">
+      {banner.title || banner.name}
+    </h2>
 
-        <Link to={`/movie/movie/${banner.id}`}>
-          <button className="banner-btn">
-            ▶ Watch
-          </button>
-        </Link>
+   
+<div className="banner-meta">
+  <span className="banner-rating">
+    <span className="rating-star">★</span>
+    {banner.vote_average?.toFixed(1) || "N/A"}
+  </span>
+  <span className="banner-meta-divider"></span>
 
-      </div>
+  <span className="banner-year">
+    {(banner.release_date || banner.first_air_date || "").slice(0, 4)}
+  </span>
+
+  <span className="banner-meta-divider"></span>
+
+  {banner.genre_ids?.slice(0, 3).map((genreId) => {
+    const genres = {
+      28: "Action",
+      12: "Adventure",
+      16: "Animation",
+      35: "Comedy",
+      80: "Crime",
+      18: "Drama",
+      14: "Fantasy",
+      27: "Horror",
+      878: "Sci-Fi",
+      53: "Thriller",
+      10749: "Romance",
+      9648: "Mystery",
+      10751: "Family",
+      36: "History",
+      10752: "War",
+      37: "Western",
+      99: "Documentary",
+      10402: "Music",
+      10770: "TV Movie",
+    };
+
+    return genres[genreId] ? (
+     <span className="banner-genre" key={genreId}>
+       {genres[genreId]}
+     </span>
+    ) : null;
+  })}
+</div>
+
+    <p className="banner-description">
+      {banner.overview
+        ? banner.overview.length > 190
+          ? banner.overview.slice(0, 190).trimEnd() + "..."
+          : banner.overview
+        : "Discover your next favorite movie."}
+    </p>
+
+    <div className="banner-actions">
+      <Link to={`/movie/movie/${banner.id}`}>
+        
+    <button className="banner-btn">
+    <span className="banner-play-icon">▶</span>
+    <span>Watch Now</span>
+    </button>
+
+    </Link>
     </div>
 
-    {/* PROGRESS */}
+  </div>
+</div>
+
+        {/* PROGRESS */}
     <div className="banner-progress">
       {Array.from({ length: totalLines }).map((_, i) => {
         const activeLine = bannerIndex % totalLines;
@@ -197,6 +257,37 @@ useEffect(() => {
       })}
     </div>
 
+    {/* MAIN BANNER ARROWS */}
+    {bannerCount > 1 && (
+      <>
+        <button
+          type="button"
+          className="main-banner-arrow main-banner-arrow-left"
+          aria-label="Previous movie"
+          onClick={() => {
+            setBannerIndex(
+              (prev) => (prev - 1 + bannerCount) % bannerCount
+            );
+            setBannerTimer(0);
+          }}
+        >
+          ❮
+        </button>
+
+        <button
+          type="button"
+          className="main-banner-arrow main-banner-arrow-right"
+          aria-label="Next movie"
+          onClick={() => {
+            setBannerIndex((prev) => (prev + 1) % bannerCount);
+            setBannerTimer(0);
+          }}
+        >
+          ❯
+        </button>
+      </>
+    )}
+
   </div>
 )}
 {/* ================= ROWS ================= */}
@@ -206,7 +297,6 @@ useEffect(() => {
     <h2 className="row-title">{row.title}</h2>
 
 
-    {/* فقط بخش فیلم ها */}
     <div className="categories-section">
 
       <button 
@@ -246,10 +336,10 @@ useEffect(() => {
                   />
 
 
-                  {item.vote_average && (
-                    <span className="browse-item-vote">
-                      ⭐ {item.vote_average.toFixed(1)}
-                    </span>
+                  {item.vote_average > 0 && (
+                  <span className="browse-item-vote">
+                   ⭐ {item.vote_average.toFixed(1)}
+                  </span>
                   )}
 
                 </div>
@@ -272,71 +362,70 @@ useEffect(() => {
 
     </div>
 
-   {/* باکس ویژه ژانر */}
-      {data[row.title]?.[i] && (
-  <div className="featured-genre-box">
+     
+{data[row.title]?.length > 0 && (() => {
+  const featuredItems = data[row.title];
+  const featuredIndex =
+    (featuredIndices[row.title] ?? i) % featuredItems.length;
+  const featuredItem = featuredItems[featuredIndex];
 
-   <img
-       src={
-       data[row.title][i].backdrop_path
-       ? IMG_URL + data[row.title][i].backdrop_path
-       : data[row.title][i].poster_path
-       ? IMG_URL + data[row.title][i].poster_path
-       : "https://via.placeholder.com/1200x600"
-    }
-        alt={data[row.title][i].title || data[row.title][i].name}
-    />
+  const changeFeatured = (direction) => {
+    setFeaturedIndices((prev) => ({
+      ...prev,
+      [row.title]:
+        (featuredIndex + direction + featuredItems.length) %
+        featuredItems.length,
+    }));
+  };
 
-    <div className="featured-genre-overlay">
+  return (
+    <div className="featured-genre-box">
+      <img
+        src={
+          featuredItem.backdrop_path
+            ? IMG_URL + featuredItem.backdrop_path
+            : IMG_URL + featuredItem.poster_path
+        }
+        alt={featuredItem.title || featuredItem.name}
+      />
 
-      <div className="featured-left">
+      <div className="featured-genre-overlay">
+        <div className="featured-left">
+          <h2>{featuredItem.title || featuredItem.name}</h2>
 
-  <h2>
-    {data[row.title][i].title || data[row.title][i].name}
-  </h2>
+          <p className="featured-description">
+            {featuredItem.overview
+              ? featuredItem.overview.slice(0, 180) + "..."
+              : "No description available"}
+          </p>
 
+          <div className="featured-meta">
+            <span className="featured-rating">
+              ⭐ {featuredItem.vote_average?.toFixed(1)}
+            </span>
 
-  <p className="featured-description">
-    {data[row.title][i].overview
-      ? data[row.title][i].overview.slice(0, 180) + "..."
-      : "No description available"}
-  </p>
+            <span>
+              📅{" "}
+              {(
+                featuredItem.release_date ||
+                featuredItem.first_air_date ||
+                ""
+              ).slice(0, 4)}
+            </span>
+          </div>
+        </div>
 
-
-  <div className="featured-meta">
-
-    <span className="featured-rating">
-      ⭐ {data[row.title][i].vote_average?.toFixed(1)}
-    </span>
-
-    <span>
-    📅 {
-      (
-        data[row.title][i].release_date ||
-        data[row.title][i].first_air_date
-      )?.slice(0, 4)
-       }
-    </span>
-
-  </div>
-
- </div>
-
-
-      <div className="featured-right">
-      
-        <Link to={`/movie/${row.type}/${data[row.title][i].id}`}>
-          <button className="featured-watch-btn">
-            ▶ Watch Now
-          </button>
-        </Link>
-
+        <div className="featured-right">
+          <Link to={`/movie/${row.type}/${featuredItem.id}`}>
+            <button className="featured-watch-btn">
+              ▶ Watch Now
+            </button>
+          </Link>
+        </div>
       </div>
-
     </div>
-
-  </div>
-)}
+  );
+})()}
 
   </div>
 ))}

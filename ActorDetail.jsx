@@ -20,7 +20,6 @@ const AWARDS = [
 function getRandomAwards(actorId) {
   const seed = actorId.toString().charCodeAt(0);
 
-  // کپی از آرایه برای جلوگیری از خراب شدن AWARDS
   const shuffled = [...AWARDS].sort(
     (a, b) => 0.5 - Math.random() + seed / 100
   );

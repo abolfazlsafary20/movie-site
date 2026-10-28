@@ -6,209 +6,265 @@ body {
 
 /* ================= HEADER ================= */
 .desktop-header {
+  position: fixed;
+  top: 30px;
+  left: 28px;
+  right: 28px;
+  z-index: 9999;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 35px 10px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  gap: 26px;
 
-  z-index: 9999;
+  padding: 0;
+  box-sizing: border-box;
 
-  background: rgba(18, 18, 18, 0.55);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 
-  transition: all 0.1s ease;
+  /* Header scroll animation */
+  transition:
+    transform 0.22s ease,
+    opacity 0.18s ease;
+  will-change: transform;
 }
 
-body.dark-mode .header {
-  background: rgba(10, 10, 10, 0.75);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+/* Hide desktop header while scrolling down */
+.desktop-header.header-hidden {
+  transform: translateY(calc(-100% - 35px));
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* سه ستون اصلی */
+/* سه ستون اصلی هدر */
 .header-left,
-.header-center,
 .header-right {
   display: flex;
   align-items: center;
+  min-width: 0;
+  box-sizing: border-box;
+
+  /* Transparent navy glass — banner remains visible */
+  background: linear-gradient(
+    135deg,
+    rgba(13, 27, 49, 0.42),
+    rgba(8, 17, 33, 0.50),
+    rgba(22, 27, 49, 0.40)
+  );
+
+  border: 1px solid rgba(140, 190, 255, 0.30);
+  border-radius: 18px;
+
+  /* Soft premium outline and subtle reflections */
+  box-shadow:
+    0 6px 22px rgba(0, 0, 0, 0.16),
+    0 0 0 1px rgba(115, 170, 255, 0.07),
+    0 0 15px rgba(65, 135, 255, 0.10),
+    0 0 20px rgba(130, 95, 255, 0.045),
+    inset 0 1px 0 rgba(235, 245, 255, 0.15),
+    inset 0 -1px 0 rgba(100, 155, 240, 0.07);
+
+  /* Glass effect */
+  backdrop-filter: blur(7px) saturate(135%);
+  -webkit-backdrop-filter: blur(7px) saturate(135%);
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
 }
 
+/* Left panel: logo and navigation */
 .header-left {
-  flex: 1;
-  display: flex;
+  flex: 0 0 auto;
+  width: 850px;
+
   justify-content: flex-start;
-  gap: 15px;
+  gap: 10px;
+  padding: 4px 10px;
 }
 
-.header-center {
-  flex: 2;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
+/* Right panel: search and user actions */
 .header-right {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex: 0 1 450px;
+
+  justify-content: space-between;
+  gap: 10px;
+  padding: 5px 10px;
 }
+
+/* Subtle blue-purple glow on hover */
+.header-left:hover,
+.header-right:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(17, 34, 59, 0.52),
+    rgba(9, 19, 37, 0.60),
+    rgba(25, 29, 54, 0.50)
+  );
+
+  border-color: rgba(155, 200, 255, 0.48);
+
+  box-shadow:
+    0 8px 26px rgba(0, 0, 0, 0.20),
+    0 0 0 1px rgba(115, 175, 255, 0.12),
+    0 0 20px rgba(65, 140, 255, 0.15),
+    0 0 24px rgba(130, 95, 255, 0.07),
+    inset 0 1px 0 rgba(240, 248, 255, 0.19);
+}
+
 
 .page-content{
-  padding-top:65px;
+  padding-top:1px;
 }
+
 
 .logo {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 45px;
-  border-radius: 12px;
-  background-color: rgba(28, 28, 28, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  cursor: pointer;
-  position: relative;
+  flex-shrink: 0;
+  width: 175px;
+  height: 52px;
+  text-decoration: none;
 }
 
-.logo-icon {
-  font-size: 20px;
-  color: #fff;
-  transition: all 0.25s ease;
-}
-
-/* حرکت نرم آیکون */
-.logo:hover .logo-icon {
-  transform: rotate(-10deg) scale(1.05);
-}
-
-body.dark-mode .logo {
-  color: #fff !important;
+.logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .nav-menu {
+  flex: 0 1 auto;
+  min-width: 0;
+
   display: flex;
-  gap: 15px;
   align-items: center;
-  
+  justify-content: flex-start;
+  gap: 20px;
+  transform: translateX(25px);
+  padding: 0;
   background: transparent;
   border: none;
-  padding: 0;
 }
 
+/* لینک‌های منو */
 .nav-link {
   position: relative;
-
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 
-  padding: 10px 18px;
-  border-radius: 14px;
+  height: 52px;
+  padding: 0 10px;
 
-  background-color: rgba(28, 28, 28, 0.6);
-  border: 1px solid rgba(255,255,255,0.08);
+  color: #edf3ff;
+  background: transparent;
+  border: none;
+  border-radius: 0;
 
-  color: rgba(255,255,255,0.85);
-  font-size: 15px;
-  font-weight: 500;
-
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
 
-  transition: all 0.3s ease;
+  transition: color 0.25s ease;
 }
 
-/* hover خود دکمه */
-.nav-link:hover {
-  color: #fff;
-  transform: translateY(1px);
-  background-color: rgba(40, 40, 40, 0.85);
+.nav-link:hover,
+.nav-link.active {
+  color: #28a9ff;
+  background: transparent;
+  border-color: transparent;
 }
 
 .nav-link::after {
   content: "";
   position: absolute;
-  left: 50%;
-  bottom: -6px;
-
-  width: 0%;
+  bottom: -8px;
+  left: 12%;
+  width: 76%;
   height: 3px;
 
-  background: #00bfff;
-  border-radius: 10px;
+  background: linear-gradient(90deg, #159dff, #42c4ff);
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(25, 157, 255, 0.65);
 
-  transform: translateX(-50%);
-  transition: width 0.3s ease;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s ease;
 }
 
-/* hover فقط روی همون دکمه */
-.nav-link:hover::after {
-  width: 60%;
-}
-
-/* حالت active (اختیاری) */
+.nav-link:hover::after,
 .nav-link.active::after {
-  width: 60%;
+  transform: scaleX(1);
 }
 
 /* ================= SEARCH ================= */
 .search-bar {
   position: relative;
-  right: 0;
+  flex: 0 1 225px;
+  min-width: 80px;
+  max-width: 225px;
+  right: auto;
   z-index: 10;
+  cursor: pointer;
 }
 
-/* input */
+
 .search-bar input {
-  width: 280px;
-  padding: 12px 45px 12px 18px;
+  width: 100%;
+  height: 38px;
+  box-sizing: border-box;
+  padding: 0 12px 0 38px;
 
-  border-radius: 30px;
-  border: 1px solid rgba(255,255,255,0.15);
-
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-
-  color: #fff;
-  font-size: 14px;
-
+  color: #ffffff;
+  background: rgba(7, 20, 38, 0.65);
+  border: 2px solid rgba(140, 190, 255, 0.30);
+  border-radius: 22px;
   outline: none;
-  transition: all 0.3s ease;
+
+  font-family: inherit;
+  font-size: 12px;
+
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-/* hover / focus */
 .search-bar input:focus {
-  width: 300px;
-  border-color: #00bfff;
-  box-shadow: 0 0 12px rgba(0,191,255,0.25);
-  background: rgba(255,255,255,0.12);
+  background: rgba(85, 120, 165, 0.35);
+  border-color: rgba(120, 190, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(120, 175, 235, 0.12);
 }
 
-/* placeholder */
 .search-bar input::placeholder {
-  color: rgba(255,255,255,0.6);
+  color: rgba(230, 238, 250, 0.8);
 }
 
-/* icon */
 .search-icon {
   position: absolute;
-  right: 10px;
+  left: 12px;
+  right: auto;
   top: 50%;
   transform: translateY(-50%);
-  color: white;
   font-size: 16px;
-  opacity: 0.8;
+  color: #eef6ff;
   pointer-events: none;
 }
+
 
 /* ================== SEARCH OVERLAY ================== */
 .search-overlay {
@@ -469,7 +525,7 @@ body.dark-mode .overlay-content {
 
 /* ================= HOME ================= */
 .home {
-  padding: 8px;
+  padding: 0px;
   text-align: left;
   direction: ltr;
 }
@@ -487,91 +543,324 @@ body.dark-mode .overlay-content {
 /* ================= HEADER BANNER ================= */
 .header-banner {
   width: 100%;
-  height: 560px;
+  height: 700px;
   position: relative;
   overflow: hidden;
   border-radius: 10px;
   background: #000;
 }
 
-/* تصویر */
-.header-banner img {
+.header-banner > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 25%;
   display: block;
 }
 
-/* overlay پایین */
+
 .banner-overlay {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  padding: 30px 40px;
-
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 90px 9%;
+  box-sizing: border-box;
   background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.85),
-    rgba(0,0,0,0.2),
-    transparent
+    90deg,
+    rgba(0, 5, 12, 0.96) 0%,
+    rgba(0, 5, 12, 0.78) 30%,
+    rgba(0, 5, 12, 0.28) 58%,
+    rgba(0, 5, 12, 0.02) 100%
   );
-
   z-index: 2;
 }
 
 .banner-content {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  width: 520px;
+  max-width: 48%;
+  height: 430px;
+  gap: 10px;
+
+  color: #fff;
+  text-align: left;
 }
 
-/* دکمه */
+.banner-label {
+  color: #80caff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+
 .banner-btn {
-  background: #0099FF;
-  border: none;
-  padding: 15px 30px;
-  border-radius: 25px;
-  color: white;
-  font-weight: bold;
-  flex-shrink: 0;
-  font-size: 18px;
-  transition: all 0.30s ease;
-  transform: scale(1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 50px;
+  padding: 0 23px;
+
+  background: rgba(190, 195, 202, 0.13);
+  color: #f0f0f0;
+
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 7px;
+
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
 
 .banner-btn:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 20px rgba(0, 191, 255, 0.35);
+  background: rgba(210, 215, 222, 0.23);
+  border-color: rgba(255, 255, 255, 0.55);
 }
 
-/* عنوان */
-.banner-title {
-  color: white;
-  font-size: 28px;
-  font-weight: 700;
-  margin: 15px;
-  margin-top: 20px;
+.banner-play-icon {
+  font-size: 20px;
 }
+
+.banner-actions a {
+  text-decoration: none;
+}
+
+.banner-actions a {
+  text-decoration: none;
+}
+
+.banner-meta-divider {
+  display: inline-block;
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.banner-genre {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+
+.banner-genre + .banner-genre::before {
+  content: "•";
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 16px;
+  font-weight: 900;
+  margin-right: 8px;
+  position: relative;
+  top: 2px;
+}
+
+
+.banner-title {
+  width: 100%;
+  height: 121px;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #fff;
+  font-size: clamp(32px, 3.5vw, 54px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.8px;
+  text-shadow: 0 4px 22px rgba(0, 0, 0, 0.35);
+  transform: translateY(50px);
+}
+
+.banner-description {
+  width: 100%;
+  max-width: 490px;
+  height: 85px;
+  margin: 0;
+  overflow: hidden;
+
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.9;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.banner-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.banner-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.rating-star {
+  color: #ffc857;
+  font-size: 20px;
+}
+
+.banner-year {
+  padding: 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+
+.banner-quality {
+  color: #d9eaff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+}
+
+.banner-description {
+  max-width: 490px;
+  height: 85px;
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.9;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===== GLASS BANNER ARROWS ===== */
+
+.home .main-banner-arrow {
+  position: absolute;
+  top: auto;
+  bottom: 190px;
+  transform: none;
+  z-index: 10;
+
+  width: 52px;
+  height: 52px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 25px;
+  font-weight: 200;
+  line-height: 1;
+
+  box-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.home .main-banner-arrow-left {
+  left: 320px;
+  right: auto;
+}
+
+.home .main-banner-arrow-right {
+  left: 385px;
+  right: auto;
+}
+
+.home .main-banner-arrow:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+
+  box-shadow:
+    0 4px 22px rgba(0, 0, 0, 0.25),
+    inset 0 1px 3px rgba(255, 255, 255, 0.3);
+}
+
+.home .main-banner-arrow:active {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.14);
+}
+
 
 /* ================= SLIDER ROW ================= */
 .slider-wrapper {
   position: relative;
 }
 
+.row-title {
+  margin-left: 20px;
+}
+
 .categories-wrapper {
   overflow-x: auto;
   scroll-behavior: smooth;
   padding-bottom: 10px;
-  padding-left: 0; 
+  padding-left: 10px; 
 }
 
 .categories {
   display: flex;
-  gap: 20px;
-  padding: 10px 0;
+  gap: 15px;
+  padding: 10px 0px;
   justify-content: flex-start; 
   flex-direction: row;
   margin-left: 0; 
@@ -611,8 +900,9 @@ body.dark-mode .overlay-content {
 .category-poster {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 12px;
+  display: block;
 }
 
 /* عنوان زیر کارت */
@@ -836,7 +1126,7 @@ body.dark-mode .overlay-content {
   border: none;
   padding: 12px 25px;
   border-radius: 12px;
-  background: #0099FF;
+  background: #3478F6;
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -845,8 +1135,6 @@ body.dark-mode .overlay-content {
 }
 
 .featured-genre-box:hover .featured-watch-btn{
-
-    transform:translateY(-3px);
 
     box-shadow:
         0 0 18px rgba(0,170,255,.45),
@@ -1135,44 +1423,67 @@ body.dark-mode .overlay-content {
 
 /* دکمه ورود مودال */
 .auth-btn {
-  position: relative;
-  padding: 12px 20px;
-  font-size: 15px;
+  flex-shrink: 0;
+  min-width: 124px;
+  height: 52px;
+  padding: 0 16px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
 
-  background-color: rgba(28, 28, 28, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  color: #fff;
+  color: #f4f7ff;
+  background: rgba(7, 20, 38, 0.65);
+  border: 2px solid rgba(140, 190, 255, 0.30);
+  border-radius: 28px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  box-shadow: inset 0 0 12px rgba(30, 130, 255, 0.04);
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
+
 
 .auth-btn svg {
-  font-size: 15px;
+  font-size: 23px;
+  color: #f4f7ff;
 }
 
+
 .auth-btn:hover {
-  transform: translateY(-1px);
+  background: rgba(20, 95, 160, 0.25);
 }
 
 /* دکمه حالت شب 🌙 */
 .darkmode-btn {
-  position: relative;
-  border-radius: 23px;
-  padding: 15px 18px;
-  background-color: rgba(28, 28, 28, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  color: #fff;
+  flex-shrink: 0;
+  width: 46px;
+  height: 48px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #f4f7ff;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: none;
+
+  transition: color 0.25s ease, background 0.25s ease;
 }
 
 .darkmode-btn:hover {
-  transform: translateY(-1px);
+  background: rgba(50, 150, 255, 0.1);
 }
-
 
  /* ===== کل کانتینر صفحه ===== */
 .movie-detail-container {
@@ -1632,17 +1943,6 @@ body.dark-mode h3 {
   color: #eaeaea;
 }
 
-/* سرچ */
-body.dark-mode .search-bar input {
-  background-color: #1e1e1e;
-  color: #fff;
-  border-color: #444;
-}
-
-body.dark-mode .search-icon {
-  color: #bbb;
-}
-
 /* اسکرول بار (اختیاری) */
 body.dark-mode ::-webkit-scrollbar-thumb {
   background-color: #555;
@@ -1656,22 +1956,27 @@ body.dark-mode ::-webkit-scrollbar-thumb {
 
 /* ===== دکمه سه خط ===== */
 .menu-btn {
-  padding: 12px 15px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px; 
-  color: #fff;
-  background-color: rgba(28, 28, 28, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+
+  color: #eaf3ff;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 17px;
+
+  font-size: 23px;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 .menu-btn:hover {
-  transform: translateY(-1px);
+  color: #fff;
+  background: rgba(50, 150, 255, 0.12);
 }
 
 /* ===== Dropdown منوی پروفایل ===== */
@@ -1759,18 +2064,18 @@ body.dark-mode ::-webkit-scrollbar-thumb {
 
 .banner-progress {
   position: absolute;
-  bottom: 15px;
+  bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 6px; 
+  gap: 7px; 
   width: 400px;
   z-index: 2;
 }
 
 .banner-progress-bar {
   flex: 1;
-  height: 6px;
+  height: 7px;
   background: rgba(255, 255, 255, 0.3); 
   border-radius: 2px;
   overflow: hidden;
@@ -1801,4 +2106,5 @@ body.dark-mode ::-webkit-scrollbar-thumb {
   z-index: 9999;
   text-align: center;
 }
+
 

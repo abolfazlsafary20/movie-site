@@ -11,7 +11,6 @@ function MovieDetail() {
 
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState(null);
-  const [video, setVideo] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
   const [likes, setLikes] = useState(0);
@@ -25,17 +24,6 @@ function MovieDetail() {
       .then(res => res.json())
       .then(data => setMovie(data));
 
-        fetch(`http://localhost:5000/api/titles/1/videos`)
-    .then(res => res.json())
-    .then(data => {
-      console.log("VIDEO DATA:", data);
-      if (data.success && data.data.length > 0) {
-        setVideo(data.data[0]);
-      }
-    })
-    .catch(error => {
-      console.error("Video API error:", error);
-    });
 
     fetch(`${BASE_URL}/${type}/${id}/videos?api_key=${API_KEY}`)
       .then(res => res.json())
@@ -94,13 +82,6 @@ function MovieDetail() {
         </div>
 
         <div className="movie-right">
-          {video && (
-          <video
-          controls
-          width="100%"
-          src={video.url}
-          />
-          )}
           {trailer && (
             <iframe
               src={`https://www.youtube.com/embed/${trailer.key}`}

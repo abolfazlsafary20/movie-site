@@ -6,7 +6,6 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 
-// 🎯 فیلتر حرفه‌ای فیلم‌های اکران‌شده
 const MOVIE_FILTERS =
   "&vote_count.gte=200" +
   "&vote_average.gte=6" +
@@ -67,7 +66,7 @@ export default function Browse() {
       const allResults = [];
 
       try {
-        // ⚡ کمتر کردن فشار API (قبلاً 10 بود)
+        
         for (let page = 1; page <= 5; page++) {
           const res = await fetch(`${baseUrl}&page=${page}`);
           const data = await res.json();
